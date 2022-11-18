@@ -7,7 +7,77 @@ body {
 
   margin: 0;
 
-  /* background-color: whitesmoke; */
+  background-color: whitesmoke;
+  position: relative;
+}
+
+/*overlay and form layout */
+.overlay {
+  position: absolute;
+
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(0, 0, 0, 0.5);
+
+  display: grid;
+}
+
+.form {
+  align-self: center;
+  justify-self: center;
+
+  background-color: #d1d5db;
+  border-radius: 10px;
+
+  width: 300px;
+  height: 400px;
+  padding: 0px 25px 0 25px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.form p {
+  margin-top: 20px;
+  align-self: center;
+  font-weight: bold;
+}
+
+.form div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+
+.form input {
+  width: 200px;
+
+  background-color: #d1d5db;
+  outline: none;
+  border-left: none;
+  border-top: none;
+  border-right: none;
+  border-bottom: 1px solid #52525b;
+}
+
+.form button {
+  width: 150px;
+  height: 80px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  align-self: center;
+  border-radius: 10px;
+  border: none;
+  background-color: #e5e7eb;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.form button:active {
+  transform: scale(0.95);
 }
 
 /* logo and function section layout */
@@ -97,7 +167,7 @@ body {
 }
 
 .book-card {
-  border-left: 20px solid #a3e635;
+  border-left: 20px solid #4aafd0;
   border-radius: 20px;
   box-shadow: 1px 1px 1px 1px black;
 
@@ -179,11 +249,11 @@ body {
 }
 
 input:checked + .slider {
-  background-color: #a3e635;
+  background-color: #4aafd0;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #a3e635;
+  box-shadow: 0 0 1px #4aafd0;
 }
 
 input:checked + .slider:before {

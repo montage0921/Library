@@ -1,8 +1,13 @@
 //Query Selector//
+
+//buttons//
 const showFormBtn = document.querySelector(`.showFormBtn`);
 const overlay = document.querySelector(`.overlay`);
+const overlayForEdit = document.querySelector(`.overlay-edit`);
+
 const addBookBtn = document.querySelector(`.addBookBtn`);
 
+const emptyLibraryInfo = document.querySelector(`.adding-info`);
 const booksSection = document.querySelector(`.books`);
 
 const titleInput = document.querySelector(`#title`);
@@ -11,8 +16,6 @@ const yearInput = document.querySelector(`#year`);
 const pagesInput = document.querySelector(`#page`);
 
 const validText = document.querySelectorAll(`.validation`);
-const existText = document.querySelector(`.exist`);
-console.log(existText);
 
 ////////////////////////////
 //////////////////Initializing//////////////////////
@@ -25,6 +28,7 @@ function Book(title, author, year, pages, isRead = false) {
   this.year = year;
   this.pages = pages;
   this.isRead = isRead;
+  this.addDate = Date.now();
 }
 
 /////////////////////////////////////////////////////
@@ -71,6 +75,7 @@ function addBookToLibrary(e) {
   clearInput();
 
   overlay.classList.add(`hidden`);
+  emptyLibraryInfo.classList.add(`hidden`);
 }
 
 //check If the book is already in the library
@@ -98,7 +103,7 @@ function renderBookCard() {
   booksSection.innerHTML = ``;
   let htmlText = ``;
   books.forEach((book) => {
-    htmlText += `<div class="book-card">
+    htmlText += `<div class="book-card ${book.addDate}">
     <h2>Title: <span>${book.title}</span></h2>
     <p>Author: <span>${book.author}</span></p>
     <p>Pages: <span>${book.pages}</span></p>
@@ -106,8 +111,8 @@ function renderBookCard() {
     <p>Status: <span class="isRead">Not Read Yet</span></p>
 
     <div class="book-card-buttons">
-      <img src="Sources/edit.svg" alt="" />
-      <img src="Sources/delete.svg" alt="" />
+   
+      <img class="${book.addDate} delBtn"  src="Sources/delete.svg" alt="" />
       <label class="switch">
         <input type="checkbox" />
         <span class="slider round"></span>
@@ -119,6 +124,26 @@ function renderBookCard() {
   booksSection.insertAdjacentHTML(`afterbegin`, htmlText);
 }
 
+function selectBook(selectedCard) {
+  const bookID = selectedCard.className.split(` `)[0];
+
+  return books.filter((book) => book.addDate == bookID)[0];
+}
+
 /////////////////////////////////////////////////////
 //Add EventListener
+
 addBookBtn.addEventListener(`click`, addBookToLibrary);
+
+booksSection.addEventListener(`click`, function (e) {
+  if (e.target.className.includes(`delBtn`)) {
+    const selectCard = e.target;
+
+    const bookCard = selectBook(selectCard);
+    const bookIndex = books.indexOf(bookCard);
+    books.splice(bookIndex, 1);
+
+    renderBookCard();
+    if (books.length === 0) emptyLibraryInfo.classList.remove(`hidden`);
+  }
+});

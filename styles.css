@@ -12,7 +12,8 @@ body {
 }
 
 /*overlay and form layout */
-.overlay {
+.overlay,
+.overlay-edit {
   position: absolute;
 
   width: 100vw;
@@ -205,8 +206,18 @@ body {
   gap: 5px;
 }
 
-.book-card-buttons > * {
+.book-card-buttons img,
+.switch {
   height: 30px;
+  cursor: pointer;
+}
+
+.book-card-buttons > *:hover {
+  transform: scale(1.1);
+}
+
+.book-card-buttons img:active {
+  transform: scale(0.95);
 }
 
 /* --------------------------------------- */

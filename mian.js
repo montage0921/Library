@@ -8,6 +8,8 @@ const overlayForEdit = document.querySelector(`.overlay-edit`);
 const addBookBtn = document.querySelector(`.addBookBtn`);
 
 const emptyLibraryInfo = document.querySelector(`.adding-info`);
+const bookExistInfo = document.querySelector(`.exist`);
+
 const booksSection = document.querySelector(`.books`);
 
 const titleInput = document.querySelector(`#title`);
@@ -28,6 +30,7 @@ function Book(title, author, year, pages, isRead = false) {
   this.year = year;
   this.pages = pages;
   this.isRead = isRead;
+
   this.addDate = Date.now();
 }
 
@@ -103,20 +106,36 @@ function renderBookCard() {
   booksSection.innerHTML = ``;
   let htmlText = ``;
   books.forEach((book) => {
-    htmlText += `<div class="book-card ${book.addDate}">
+    htmlText += `<div class="book-card ${
+      book.isRead === false ? `grey-banner` : `blue-banner`
+    } ${book.addDate}">
     <h2>Title: <span>${book.title}</span></h2>
     <p>Author: <span>${book.author}</span></p>
     <p>Pages: <span>${book.pages}</span></p>
     <p>Year: <span>${book.year}</span></p>
-    <p>Status: <span class="isRead">Not Read Yet</span></p>
+
+    <p>Status: 
+    <span class="${book.isRead === false ? `noRead` : `finishRead`}">${
+      book.isRead === false ? `Not Finished Yet` : `Finished`
+    }</span>
+    
+    </p></p>
 
     <div class="book-card-buttons">
    
       <img class="${book.addDate} delBtn"  src="Sources/delete.svg" alt="" />
-      <label class="switch">
-        <input type="checkbox" />
-        <span class="slider round"></span>
-      </label>
+
+        ${
+          book.isRead === false
+            ? ` <button class="${book.addDate} grey slider"  />Not Read</button>`
+            : ` <button class="${book.addDate} blue slider"  />
+        Read</button>
+        `
+        }
+     
+       
+      
+     
     </div>
   </div>`;
   });
@@ -145,5 +164,16 @@ booksSection.addEventListener(`click`, function (e) {
 
     renderBookCard();
     if (books.length === 0) emptyLibraryInfo.classList.remove(`hidden`);
+  }
+  if (e.target.className.includes(`slider`)) {
+    console.log(e.target);
+
+    const selectCard = e.target;
+    const bookCard = selectBook(selectCard);
+
+    if (bookCard.isRead === false) bookCard.isRead = true;
+    else bookCard.isRead = false;
+
+    renderBookCard();
   }
 });

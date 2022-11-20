@@ -185,6 +185,10 @@ body {
   font-weight: 900;
 }
 
+.isRead {
+  color: darkgrey;
+}
+
 /* book-card buttons layout */
 .book-card-buttons {
   display: flex;

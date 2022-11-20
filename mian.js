@@ -35,18 +35,33 @@ showFormBtn.addEventListener(`click`, function () {
 let newBook;
 
 function addBookToLibrary(e) {
+  e.preventDefault();
   const title = titleInput.value;
   const author = authorInput.value;
   const year = +yearInput.value;
   const page = +pagesInput.value;
 
   newBook = new Book(title, author, year, page);
-  books.push(newBook);
-  console.log(books);
+
+  isAdded();
 
   renderBookCard();
+
   clearInput();
+
   overlay.classList.add(`hidden`);
+}
+
+//check If the book is already in the library
+function isAdded() {
+  if (books.length === 0) {
+    books.push(newBook);
+  } else if (
+    books.length !== 0 &&
+    books.every((book) => book.title !== newBook.title)
+  ) {
+    books.push(newBook);
+  }
 }
 
 //clear the form after submit books
@@ -67,6 +82,7 @@ function renderBookCard() {
     <p>Author: <span>${book.author}</span></p>
     <p>Pages: <span>${book.pages}</span></p>
     <p>Year: <span>${book.year}</span></p>
+    <p>Status: <span class="isRead">Not Read Yet</span></p>
 
     <div class="book-card-buttons">
       <img src="Sources/edit.svg" alt="" />

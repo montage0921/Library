@@ -10,6 +10,10 @@ const authorInput = document.querySelector(`#author`);
 const yearInput = document.querySelector(`#year`);
 const pagesInput = document.querySelector(`#page`);
 
+const validText = document.querySelectorAll(`.validation`);
+const existText = document.querySelector(`.exist`);
+console.log(existText);
+
 ////////////////////////////
 //////////////////Initializing//////////////////////
 
@@ -43,7 +47,24 @@ function addBookToLibrary(e) {
 
   newBook = new Book(title, author, year, page);
 
-  isAdded();
+  for (prop in newBook) {
+    if (newBook[prop] === `` || newBook[prop] === 0) {
+      validText.forEach((node) => {
+        if (node.className.includes(prop)) {
+          node.classList.remove(`hidden`);
+        }
+      });
+      return;
+    } else {
+      validText.forEach((node) => {
+        if (node.className.includes(prop)) {
+          node.classList.add(`hidden`);
+        }
+      });
+    }
+  }
+
+  addBook();
 
   renderBookCard();
 
@@ -53,7 +74,7 @@ function addBookToLibrary(e) {
 }
 
 //check If the book is already in the library
-function isAdded() {
+function addBook() {
   if (books.length === 0) {
     books.push(newBook);
   } else if (

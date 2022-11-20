@@ -9,27 +9,36 @@
     <script src="mian.js" defer></script>
   </head>
   <body>
-    <div class="overlay hidden">
-      <form class="form">
+    <div class="overlay ">
+
+      <form class="form" action="" method="post">
         <p>Fill the form to add a book!</p>
         <div class="title-form">
           <label for="title">Title: </label>
-          <input type="text" name="title" id="title" />
+          <input type="text" name="title" id="title" required />
+          <p class="validation  title-valid hidden ">*Please fill out this field</p>
+          <p class="exist hidden ">*The book already in library</p>
+
         </div>
 
         <div class="author-form">
           <label for="author">Author: </label
           ><input type="text" name="author" id="author" />
+          <p class="validation author-valid hidden ">*Please fill out this field</p>
         </div>
 
         <div class="year-form">
           <label for="year">Published Year: </label
           ><input type="number" name="year" id="year" />
+          <p class="validation year-valid hidden">*Please enter a valid year</p>
+         
         </div>
 
         <div class="page-form">
           <label for="page">Pages: </label
           ><input type="number" name="page" id="page" />
+          <p class="validation pages-valid hidden ">*Please enter a valid page number</p>
+         
         </div>
 
         <button type="submit" class="addBookBtn">Add Book</button>
@@ -42,17 +51,17 @@
       </div>
 
       <div class="function">
-        <button class="showFormBtn">Add Book</button>
+        <button type="button" class="showFormBtn">Add Book</button>
       </div>
     </div>
 
     <div class="book-section">
       <div class="sort">
         <p>Sort by</p>
-        <button class="add-Date">Add Date</button>
-        <button class="title">Title</button>
-        <button class="published-date">Published Year</button>
-        <button class="pages">pages</button>
+        <button type="button" class="add-Date">Add Date</button>
+        <button type="button" class="titleBtn">Title</button>
+        <button type="button" class="published-dateBtn">Published Year</button>
+        <button type="button" class="pagesBtn">pages</button>
       </div>
 
       <div class="adding-info">Your book shelf is empty</div>

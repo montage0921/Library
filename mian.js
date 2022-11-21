@@ -1,27 +1,28 @@
-//Query Selector//
+////////////////Query Selector/////////////////
 
-//buttons//
+//BUTTONS//
 const showFormBtn = document.querySelector(`.showFormBtn`);
 const addBookBtn = document.querySelector(`.addBookBtn`);
+const sortBtn = document.querySelector(`#sort-bar`);
 
-const overlay = document.querySelector(`.overlay`);
-const overlayForEdit = document.querySelector(`.overlay-edit`);
-
+//TEXT//
+//"Your book shelf is empty"
 const emptyLibraryInfo = document.querySelector(`.adding-info`);
+//*The book is already in library
 const bookExistInfo = document.querySelector(`.exist`);
+//validation text
+const validText = document.querySelectorAll(`.validation`);
 
-const booksSection = document.querySelector(`.books`);
+//CONTAINER//
+const bookCardContainer = document.querySelector(`.books`);
+const formContainer = document.querySelector(`.overlay`);
 
+//INPUT//
 const titleInput = document.querySelector(`#title`);
 const authorInput = document.querySelector(`#author`);
 const yearInput = document.querySelector(`#year`);
 const pagesInput = document.querySelector(`#page`);
 
-const validText = document.querySelectorAll(`.validation`);
-
-const sortBtn = document.querySelector(`#sort-bar`);
-
-////////////////////////////
 //////////////////Initializing//////////////////////
 
 const books = [];
@@ -32,20 +33,18 @@ function Book(title, author, year, pages, isRead = false) {
   this.year = year;
   this.pages = pages;
   this.isRead = isRead;
-
   this.addDate = Date.now();
 }
 
-/////////////////////////////////////////////////////
-//////////////////Function///////////////////////////
-
-//add books to the "books array"
 let newBook;
 let sortedBooks;
+let isTitleRepeat = false;
+
+//////////////////Function///////////////////////////
 
 function addBookToLibrary(e) {
-  let isRepeat = false;
   e.preventDefault();
+
   const title = titleInput.value;
   const author = authorInput.value;
   const year = +yearInput.value;
@@ -53,6 +52,7 @@ function addBookToLibrary(e) {
 
   newBook = new Book(title, author, year, page);
 
+  //Validation: check if input fields are filled
   for (prop in newBook) {
     if (newBook[prop] === `` || newBook[prop] === 0) {
       validText.forEach((node) => {
@@ -70,9 +70,9 @@ function addBookToLibrary(e) {
     }
   }
 
-  isRepeat = addBook();
+  isTitleRepeat = addBook();
 
-  if (isRepeat === true) return;
+  if (isTitleRepeat === true) return;
 
   sortedBooks = sortBook(sortedBooks);
 
@@ -80,7 +80,7 @@ function addBookToLibrary(e) {
 
   clearInput();
 
-  overlay.classList.add(`hidden`);
+  formContainer.classList.add(`hidden`);
   emptyLibraryInfo.classList.add(`hidden`);
   bookExistInfo.classList.add(`hidden`);
 }
@@ -93,15 +93,17 @@ function addBook() {
     books.length !== 0 &&
     books.every((book) => book.title !== newBook.title)
   ) {
+    isTitleRepeat = true;
+    bookExistInfo.classList.add(`hidden`);
     books.push(newBook);
   } else if (
     books.length !== 0 &&
     books.some((book) => book.title == newBook.title)
   ) {
     bookExistInfo.classList.remove(`hidden`);
-    isRepeat = true;
+    isTitleRepeat = true;
 
-    return isRepeat;
+    return isTitleRepeat;
   }
 }
 
@@ -115,7 +117,7 @@ function clearInput() {
 
 //Render Book Card
 function renderBookCard(books) {
-  booksSection.innerHTML = ``;
+  bookCardContainer.innerHTML = ``;
   let htmlText = ``;
   books.forEach((book) => {
     htmlText += `<div class="book-card ${
@@ -149,7 +151,7 @@ function renderBookCard(books) {
   </div>`;
   });
 
-  booksSection.insertAdjacentHTML(`afterbegin`, htmlText);
+  bookCardContainer.insertAdjacentHTML(`afterbegin`, htmlText);
 }
 
 function selectBook(selectedCard) {
@@ -202,12 +204,12 @@ function sortBook(sortedBooks) {
 
 // form popup window appear
 showFormBtn.addEventListener(`click`, function () {
-  overlay.classList.remove(`hidden`);
+  formContainer.classList.remove(`hidden`);
 });
 
 addBookBtn.addEventListener(`click`, addBookToLibrary);
 
-booksSection.addEventListener(`click`, function (e) {
+bookCardContainer.addEventListener(`click`, function (e) {
   if (e.target.className.includes(`delBtn`)) {
     const selectCard = e.target;
 

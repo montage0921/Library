@@ -19,6 +19,8 @@ const pagesInput = document.querySelector(`#page`);
 
 const validText = document.querySelectorAll(`.validation`);
 
+const sortBtn = document.querySelector(`#sort-bar`);
+
 ////////////////////////////
 //////////////////Initializing//////////////////////
 
@@ -37,13 +39,9 @@ function Book(title, author, year, pages, isRead = false) {
 /////////////////////////////////////////////////////
 //////////////////Function///////////////////////////
 
-// form popup window appear
-showFormBtn.addEventListener(`click`, function () {
-  overlay.classList.remove(`hidden`);
-});
-
 //add books to the "books array"
 let newBook;
+let sortedBooks;
 
 function addBookToLibrary(e) {
   let isRepeat = false;
@@ -76,7 +74,9 @@ function addBookToLibrary(e) {
 
   if (isRepeat === true) return;
 
-  renderBookCard();
+  sortedBooks = sortBook(sortedBooks);
+
+  renderBookCard(sortedBooks);
 
   clearInput();
 
@@ -114,14 +114,14 @@ function clearInput() {
 }
 
 //Render Book Card
-function renderBookCard() {
+function renderBookCard(books) {
   booksSection.innerHTML = ``;
   let htmlText = ``;
   books.forEach((book) => {
     htmlText += `<div class="book-card ${
       book.isRead === false ? `grey-banner` : `blue-banner`
     } ${book.addDate}">
-    <h2>Title: <span>${book.title}</span></h2>
+    <h2><em>"${book.title}"</em></h2>
     <p>Author: <span>${book.author}</span></p>
     <p>Pages: <span>${book.pages}</span></p>
     <p>Year: <span>${book.year}</span></p>
@@ -144,10 +144,7 @@ function renderBookCard() {
         Read</button>
         `
         }
-     
-       
-      
-     
+
     </div>
   </div>`;
   });
@@ -161,8 +158,52 @@ function selectBook(selectedCard) {
   return books.filter((book) => book.addDate == bookID)[0];
 }
 
+function sortBook(sortedBooks) {
+  if (sortBtn.value == `default`) {
+    console.log(`ok`);
+    return books.sort((a, b) => {
+      if (a.addDate < b.addDate) return -1;
+    });
+  }
+  if (sortBtn.value == `character-up`) {
+    return books.sort((a, b) => {
+      if (a.title < b.title) return -1;
+    });
+  }
+  if (sortBtn.value == `character-down`) {
+    return books.sort((a, b) => {
+      if (a.title > b.title) return -1;
+    });
+  }
+  if (sortBtn.value == `page-up`) {
+    return books.sort((a, b) => {
+      if (a.pages < b.pages) return -1;
+    });
+  }
+  if (sortBtn.value == `page-down`) {
+    return books.sort((a, b) => {
+      if (a.pages > b.pages) return -1;
+    });
+  }
+  if (sortBtn.value == `year-up`) {
+    return books.sort((a, b) => {
+      if (a.year < b.year) return -1;
+    });
+  }
+  if (sortBtn.value == `year-down`) {
+    return books.sort((a, b) => {
+      if (a.year > b.year) return -1;
+    });
+  }
+}
+
 /////////////////////////////////////////////////////
 //Add EventListener
+
+// form popup window appear
+showFormBtn.addEventListener(`click`, function () {
+  overlay.classList.remove(`hidden`);
+});
 
 addBookBtn.addEventListener(`click`, addBookToLibrary);
 
@@ -174,18 +215,21 @@ booksSection.addEventListener(`click`, function (e) {
     const bookIndex = books.indexOf(bookCard);
     books.splice(bookIndex, 1);
 
-    renderBookCard();
+    renderBookCard(books);
     if (books.length === 0) emptyLibraryInfo.classList.remove(`hidden`);
   }
   if (e.target.className.includes(`slider`)) {
-    console.log(e.target);
-
     const selectCard = e.target;
     const bookCard = selectBook(selectCard);
 
     if (bookCard.isRead === false) bookCard.isRead = true;
     else bookCard.isRead = false;
 
-    renderBookCard();
+    renderBookCard(books);
   }
+});
+
+sortBtn.addEventListener(`input`, function () {
+  sortedBooks = sortBook();
+  renderBookCard(sortedBooks);
 });

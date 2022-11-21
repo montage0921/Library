@@ -9,6 +9,8 @@ body {
 
   background-color: whitesmoke;
   position: relative;
+
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /*overlay and form layout */
@@ -130,28 +132,19 @@ body {
 }
 
 /* sort-buttons layout */
-
-.sort {
-  padding-left: 20px;
-
+.sort-section {
   display: flex;
+  margin-left: 20px;
   gap: 20px;
-  align-items: center;
 }
 
-.sort button {
-  height: 25px;
-  padding: 5px 20px 5px 20px;
-  background-color: grey;
-  border-radius: 20px;
-  border: none;
-
-  color: whitesmoke;
-  cursor: pointer;
+.sort-section img {
+  height: 35px;
 }
 
-.sort button:active {
-  transform: scale(0.95);
+#sort-bar {
+  width: 150px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* book cards layout */

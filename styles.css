@@ -202,6 +202,12 @@ body {
   font-weight: 900;
 }
 
+.book-card > * > span {
+  font-weight: 500;
+  font-style: italic;
+  color: #4aafd0;
+}
+
 /* book-card buttons layout */
 .book-card-buttons {
   display: flex;

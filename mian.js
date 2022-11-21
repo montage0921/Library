@@ -2,10 +2,10 @@
 
 //buttons//
 const showFormBtn = document.querySelector(`.showFormBtn`);
+const addBookBtn = document.querySelector(`.addBookBtn`);
+
 const overlay = document.querySelector(`.overlay`);
 const overlayForEdit = document.querySelector(`.overlay-edit`);
-
-const addBookBtn = document.querySelector(`.addBookBtn`);
 
 const emptyLibraryInfo = document.querySelector(`.adding-info`);
 const bookExistInfo = document.querySelector(`.exist`);
@@ -46,6 +46,7 @@ showFormBtn.addEventListener(`click`, function () {
 let newBook;
 
 function addBookToLibrary(e) {
+  let isRepeat = false;
   e.preventDefault();
   const title = titleInput.value;
   const author = authorInput.value;
@@ -71,7 +72,9 @@ function addBookToLibrary(e) {
     }
   }
 
-  addBook();
+  isRepeat = addBook();
+
+  if (isRepeat === true) return;
 
   renderBookCard();
 
@@ -79,9 +82,10 @@ function addBookToLibrary(e) {
 
   overlay.classList.add(`hidden`);
   emptyLibraryInfo.classList.add(`hidden`);
+  bookExistInfo.classList.add(`hidden`);
 }
 
-//check If the book is already in the library
+//check If the book is already in the library. If not, add the book to the library.
 function addBook() {
   if (books.length === 0) {
     books.push(newBook);
@@ -90,6 +94,14 @@ function addBook() {
     books.every((book) => book.title !== newBook.title)
   ) {
     books.push(newBook);
+  } else if (
+    books.length !== 0 &&
+    books.some((book) => book.title == newBook.title)
+  ) {
+    bookExistInfo.classList.remove(`hidden`);
+    isRepeat = true;
+
+    return isRepeat;
   }
 }
 

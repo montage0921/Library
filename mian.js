@@ -27,13 +27,15 @@ const pagesInput = document.querySelector(`#page`);
 
 const books = [];
 
-function Book(title, author, year, pages, isRead = false) {
-  this.title = title;
-  this.author = author;
-  this.year = year;
-  this.pages = pages;
-  this.isRead = isRead;
-  this.addDate = Date.now();
+class Book {
+  constructor(title, author, year, pages, isRead = false) {
+    this.title = title;
+    this.author = author;
+    this.year = year;
+    this.pages = pages;
+    this.isRead = isRead;
+    this.addDate = Date.now();
+  }
 }
 
 let newBook;
